@@ -15,6 +15,7 @@ const STARS = [
     'Magha', 'Purva Falguni', 'Uttara Falguni', 'Hasta', 'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyestha',
     'Moola', 'Purva Shadha', 'Uttara Shadha', 'Shrovona', 'Dhanishtha', 'Shatbhisha', 'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati'
 ]
+const STAR_NA_OPTION = 'Star is NA but Star Lord is available'
 const RETRO_DIRECT = ['Retrograde', 'Direct']
 const YES_NO = ['Yes', 'No']
 
@@ -263,9 +264,13 @@ export default function AstrologicalForm() {
     }, [q86, q90, q94, q98, q102, setValue])
 
     // Q5 auto-fill based on Q4 star selection (nakshatra lord)
+    // Only auto-fill when an actual star is selected (not the special NA option)
     React.useEffect(() => {
-        if (q4 && STAR_TO_LORD[q4]) {
+        if (q4 && q4 !== STAR_NA_OPTION && STAR_TO_LORD[q4]) {
             setValue('q5_starLord', STAR_TO_LORD[q4])
+        } else if (q4 === STAR_NA_OPTION) {
+            // Clear the auto-filled value when switching to NA option - user will select manually
+            setValue('q5_starLord', '')
         } else {
             setValue('q5_starLord', '')
         }
@@ -452,17 +457,32 @@ export default function AstrologicalForm() {
                                 name="q4_star"
                                 control={control}
                                 render={({ field }) => (
-                                    <CustomSelect value={field.value} onChange={field.onChange} options={STARS} placeholder="Select Star" />
+                                    <CustomSelect value={field.value} onChange={field.onChange} options={[STAR_NA_OPTION, ...STARS]} placeholder="Select Star" />
                                 )}
                             />
                         </div>
                     )}
 
                     {/* Q5: HIDDEN until Q4 (STAR_1) has value - AUTO-FILLED based on star selection */}
-                    {q4 && q5 && (
+                    {/* When Star is NA option is chosen, show dropdown with planets instead */}
+                    {q4 && q4 !== STAR_NA_OPTION && q5 && (
                         <div className="grid gap-2">
                             <Label>5. Star lord of the star {q4}?</Label>
                             <Input value={q5} readOnly className="bg-slate-100 font-medium" />
+                        </div>
+                    )}
+
+                    {/* Q5 alternate: When Star NA option is chosen, show dropdown */}
+                    {q4 === STAR_NA_OPTION && (
+                        <div className="grid gap-2">
+                            <Label>5. Star Lord of the Star in which the Sub Lord {q2} is deposited?</Label>
+                            <Controller
+                                name="q5_starLord"
+                                control={control}
+                                render={({ field }) => (
+                                    <CustomSelect value={field.value} onChange={field.onChange} options={PLANETS} placeholder="Select Star Lord" />
+                                )}
+                            />
                         </div>
                     )}
 
