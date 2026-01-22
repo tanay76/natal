@@ -13,7 +13,7 @@ const PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn',
 const STARS = [
     'Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha',
     'Magha', 'Purva Falguni', 'Uttara Falguni', 'Hasta', 'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyestha',
-    'Moola', 'Purva Shadha', 'Uttara Shadha', 'Shrovona', 'Dhanishtha', 'Shatbhisha', 'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati'
+    'Moola', 'Purva Shadha', 'Uttara Shadha', 'Shrovona', 'Dhanishtha', 'Shatabhisha', 'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati'
 ]
 const STAR_NA_OPTION = 'Star is NA but Star Lord is available'
 const RETRO_DIRECT = ['Retrograde', 'Direct']
@@ -26,7 +26,7 @@ const STAR_TO_LORD = {
     'Krittika': 'Sun', 'Uttara Falguni': 'Sun', 'Uttara Shadha': 'Sun',
     'Rohini': 'Moon', 'Hasta': 'Moon', 'Shrovona': 'Moon',
     'Mrigashira': 'Mars', 'Chitra': 'Mars', 'Dhanishtha': 'Mars',
-    'Ardra': 'Rahu', 'Swati': 'Rahu', 'Shatbhisha': 'Rahu',
+    'Ardra': 'Rahu', 'Swati': 'Rahu', 'Shatabhisha': 'Rahu',
     'Punarvasu': 'Jupiter', 'Vishakha': 'Jupiter', 'Purva Bhadrapada': 'Jupiter',
     'Pushya': 'Saturn', 'Anuradha': 'Saturn', 'Uttara Bhadrapada': 'Saturn',
     'Ashlesha': 'Mercury', 'Jyestha': 'Mercury', 'Revati': 'Mercury'
@@ -238,6 +238,207 @@ export default function AstrologicalForm() {
     const q94 = watch('q94_sig') || ''
     const q98 = watch('q98_sig') || ''
     const q102 = watch('q102_sig') || ''
+
+    // Watch all retrograde/direct questions
+    const q3_value = watch('q3_subLordRetro')
+    const q6_value = watch('q6_starLordRetro')
+
+    // Conjunct planets of Sub-Lord (Q11-Q30)
+    const q11_retro = watch('q11_retro')
+    const q12_starLord = watch('q12_starLord')
+    const q13_retro = watch('q13_retro')
+    const q15_retro = watch('q15_retro')
+    const q16_starLord = watch('q16_starLord')
+    const q17_retro = watch('q17_retro')
+    const q19_retro = watch('q19_retro')
+    const q20_starLord = watch('q20_starLord')
+    const q21_retro = watch('q21_retro')
+    const q23_retro = watch('q23_retro')
+    const q24_starLord = watch('q24_starLord')
+    const q25_retro = watch('q25_retro')
+    const q27_retro = watch('q27_retro')
+    const q28_starLord = watch('q28_starLord')
+    const q29_retro = watch('q29_retro')
+
+    // Conjunct planets of Star-Lord (Q35-Q54)
+    const q35_retro = watch('q35_retro')
+    const q36_starLord = watch('q36_starLord')
+    const q37_retro = watch('q37_retro')
+    const q39_retro = watch('q39_retro')
+    const q40_starLord = watch('q40_starLord')
+    const q41_retro = watch('q41_retro')
+    const q43_retro = watch('q43_retro')
+    const q44_starLord = watch('q44_starLord')
+    const q45_retro = watch('q45_retro')
+    const q47_retro = watch('q47_retro')
+    const q48_starLord = watch('q48_starLord')
+    const q49_retro = watch('q49_retro')
+    const q51_retro = watch('q51_retro')
+    const q52_starLord = watch('q52_starLord')
+    const q53_retro = watch('q53_retro')
+
+    // Opposed planets to Sub-Lord (Q59-Q78)
+    const q59_retro = watch('q59_retro')
+    const q60_starLord = watch('q60_starLord')
+    const q61_retro = watch('q61_retro')
+    const q63_retro = watch('q63_retro')
+    const q64_starLord = watch('q64_starLord')
+    const q65_retro = watch('q65_retro')
+    const q67_retro = watch('q67_retro')
+    const q68_starLord = watch('q68_starLord')
+    const q69_retro = watch('q69_retro')
+    const q71_retro = watch('q71_retro')
+    const q72_starLord = watch('q72_starLord')
+    const q73_retro = watch('q73_retro')
+    const q75_retro = watch('q75_retro')
+    const q76_starLord = watch('q76_starLord')
+    const q77_retro = watch('q77_retro')
+
+    // Opposed planets to Star-Lord (Q83-Q102)
+    const q83_retro = watch('q83_retro')
+    const q84_starLord = watch('q84_starLord')
+    const q85_retro = watch('q85_retro')
+    const q87_retro = watch('q87_retro')
+    const q88_starLord = watch('q88_starLord')
+    const q89_retro = watch('q89_retro')
+    const q91_retro = watch('q91_retro')
+    const q92_starLord = watch('q92_starLord')
+    const q93_retro = watch('q93_retro')
+    const q95_retro = watch('q95_retro')
+    const q96_starLord = watch('q96_starLord')
+    const q97_retro = watch('q97_retro')
+    const q99_retro = watch('q99_retro')
+    const q100_starLord = watch('q100_starLord')
+    const q101_retro = watch('q101_retro')
+
+    // Compute Direct and Retrograde planet lists with designations
+    const { directPlanets, retrogradePlanets } = React.useMemo(() => {
+        const direct = []
+        const retrograde = []
+
+        // Helper to add planet with designation to appropriate list
+        const addPlanet = (planet, status, designation) => {
+            if (!planet || !status) return
+            const entry = { planet, designation }
+            if (status === 'Direct') direct.push(entry)
+            if (status === 'Retrograde') retrograde.push(entry)
+        }
+
+        // Q3: Sub-Lord
+        addPlanet(q2, q3_value, 'Sub Lord')
+        // Q6: Star-Lord of Sub-Lord
+        addPlanet(q5, q6_value, `Star Lord of Sub Lord ${q2}`)
+
+        // Conjunct planets of Sub-Lord and their Star Lords
+        if (q10.length >= 1) {
+            addPlanet(q10[0], q11_retro, `Conjunct Planet of Sub Lord ${q2}`)
+            addPlanet(q12_starLord, q13_retro, `Star Lord of Conjunct Planet ${q10[0]} of Sub Lord ${q2}`)
+        }
+        if (q10.length >= 2) {
+            addPlanet(q10[1], q15_retro, `Conjunct Planet of Sub Lord ${q2}`)
+            addPlanet(q16_starLord, q17_retro, `Star Lord of Conjunct Planet ${q10[1]} of Sub Lord ${q2}`)
+        }
+        if (q10.length >= 3) {
+            addPlanet(q10[2], q19_retro, `Conjunct Planet of Sub Lord ${q2}`)
+            addPlanet(q20_starLord, q21_retro, `Star Lord of Conjunct Planet ${q10[2]} of Sub Lord ${q2}`)
+        }
+        if (q10.length >= 4) {
+            addPlanet(q10[3], q23_retro, `Conjunct Planet of Sub Lord ${q2}`)
+            addPlanet(q24_starLord, q25_retro, `Star Lord of Conjunct Planet ${q10[3]} of Sub Lord ${q2}`)
+        }
+        if (q10.length >= 5) {
+            addPlanet(q10[4], q27_retro, `Conjunct Planet of Sub Lord ${q2}`)
+            addPlanet(q28_starLord, q29_retro, `Star Lord of Conjunct Planet ${q10[4]} of Sub Lord ${q2}`)
+        }
+
+        // Conjunct planets of Star-Lord and their Star Lords
+        if (q34.length >= 1) {
+            addPlanet(q34[0], q35_retro, `Conjunct Planet of Star Lord ${q5} of Sub Lord ${q2}`)
+            addPlanet(q36_starLord, q37_retro, `Star Lord of Conjunct Planet ${q34[0]} of Star Lord ${q5} of Sub Lord ${q2}`)
+        }
+        if (q34.length >= 2) {
+            addPlanet(q34[1], q39_retro, `Conjunct Planet of Star Lord ${q5} of Sub Lord ${q2}`)
+            addPlanet(q40_starLord, q41_retro, `Star Lord of Conjunct Planet ${q34[1]} of Star Lord ${q5} of Sub Lord ${q2}`)
+        }
+        if (q34.length >= 3) {
+            addPlanet(q34[2], q43_retro, `Conjunct Planet of Star Lord ${q5} of Sub Lord ${q2}`)
+            addPlanet(q44_starLord, q45_retro, `Star Lord of Conjunct Planet ${q34[2]} of Star Lord ${q5} of Sub Lord ${q2}`)
+        }
+        if (q34.length >= 4) {
+            addPlanet(q34[3], q47_retro, `Conjunct Planet of Star Lord ${q5} of Sub Lord ${q2}`)
+            addPlanet(q48_starLord, q49_retro, `Star Lord of Conjunct Planet ${q34[3]} of Star Lord ${q5} of Sub Lord ${q2}`)
+        }
+        if (q34.length >= 5) {
+            addPlanet(q34[4], q51_retro, `Conjunct Planet of Star Lord ${q5} of Sub Lord ${q2}`)
+            addPlanet(q52_starLord, q53_retro, `Star Lord of Conjunct Planet ${q34[4]} of Star Lord ${q5} of Sub Lord ${q2}`)
+        }
+
+        // Opposed planets to Sub-Lord and their Star Lords
+        if (q58.length >= 1) {
+            addPlanet(q58[0], q59_retro, `Opposed Planet of Sub Lord ${q2}`)
+            addPlanet(q60_starLord, q61_retro, `Star Lord of Opposed Planet ${q58[0]} of Sub Lord ${q2}`)
+        }
+        if (q58.length >= 2) {
+            addPlanet(q58[1], q63_retro, `Opposed Planet of Sub Lord ${q2}`)
+            addPlanet(q64_starLord, q65_retro, `Star Lord of Opposed Planet ${q58[1]} of Sub Lord ${q2}`)
+        }
+        if (q58.length >= 3) {
+            addPlanet(q58[2], q67_retro, `Opposed Planet of Sub Lord ${q2}`)
+            addPlanet(q68_starLord, q69_retro, `Star Lord of Opposed Planet ${q58[2]} of Sub Lord ${q2}`)
+        }
+        if (q58.length >= 4) {
+            addPlanet(q58[3], q71_retro, `Opposed Planet of Sub Lord ${q2}`)
+            addPlanet(q72_starLord, q73_retro, `Star Lord of Opposed Planet ${q58[3]} of Sub Lord ${q2}`)
+        }
+        if (q58.length >= 5) {
+            addPlanet(q58[4], q75_retro, `Opposed Planet of Sub Lord ${q2}`)
+            addPlanet(q76_starLord, q77_retro, `Star Lord of Opposed Planet ${q58[4]} of Sub Lord ${q2}`)
+        }
+
+        // Opposed planets to Star-Lord and their Star Lords
+        if (q82.length >= 1) {
+            addPlanet(q82[0], q83_retro, `Opposed Planet of Star Lord ${q5} of Sub Lord ${q2}`)
+            addPlanet(q84_starLord, q85_retro, `Star Lord of Opposed Planet ${q82[0]} of Star Lord ${q5} of Sub Lord ${q2}`)
+        }
+        if (q82.length >= 2) {
+            addPlanet(q82[1], q87_retro, `Opposed Planet of Star Lord ${q5} of Sub Lord ${q2}`)
+            addPlanet(q88_starLord, q89_retro, `Star Lord of Opposed Planet ${q82[1]} of Star Lord ${q5} of Sub Lord ${q2}`)
+        }
+        if (q82.length >= 3) {
+            addPlanet(q82[2], q91_retro, `Opposed Planet of Star Lord ${q5} of Sub Lord ${q2}`)
+            addPlanet(q92_starLord, q93_retro, `Star Lord of Opposed Planet ${q82[2]} of Star Lord ${q5} of Sub Lord ${q2}`)
+        }
+        if (q82.length >= 4) {
+            addPlanet(q82[3], q95_retro, `Opposed Planet of Star Lord ${q5} of Sub Lord ${q2}`)
+            addPlanet(q96_starLord, q97_retro, `Star Lord of Opposed Planet ${q82[3]} of Star Lord ${q5} of Sub Lord ${q2}`)
+        }
+        if (q82.length >= 5) {
+            addPlanet(q82[4], q99_retro, `Opposed Planet of Star Lord ${q5} of Sub Lord ${q2}`)
+            addPlanet(q100_starLord, q101_retro, `Star Lord of Opposed Planet ${q82[4]} of Star Lord ${q5} of Sub Lord ${q2}`)
+        }
+
+        // Sort by PLANETS order
+        const sortByPlanetsOrder = (arr) => arr.sort((a, b) => PLANETS.indexOf(a.planet) - PLANETS.indexOf(b.planet))
+
+        return {
+            directPlanets: sortByPlanetsOrder(direct),
+            retrogradePlanets: sortByPlanetsOrder(retrograde)
+        }
+    }, [
+        q2, q3_value, q5, q6_value,
+        q10, q11_retro, q12_starLord, q13_retro, q15_retro, q16_starLord, q17_retro,
+        q19_retro, q20_starLord, q21_retro, q23_retro, q24_starLord, q25_retro,
+        q27_retro, q28_starLord, q29_retro,
+        q34, q35_retro, q36_starLord, q37_retro, q39_retro, q40_starLord, q41_retro,
+        q43_retro, q44_starLord, q45_retro, q47_retro, q48_starLord, q49_retro,
+        q51_retro, q52_starLord, q53_retro,
+        q58, q59_retro, q60_starLord, q61_retro, q63_retro, q64_starLord, q65_retro,
+        q67_retro, q68_starLord, q69_retro, q71_retro, q72_starLord, q73_retro,
+        q75_retro, q76_starLord, q77_retro,
+        q82, q83_retro, q84_starLord, q85_retro, q87_retro, q88_starLord, q89_retro,
+        q91_retro, q92_starLord, q93_retro, q95_retro, q96_starLord, q97_retro,
+        q99_retro, q100_starLord, q101_retro
+    ])
 
     // Q31 auto-fill
     React.useEffect(() => {
@@ -804,6 +1005,44 @@ export default function AstrologicalForm() {
                         <Label>105. SUMMARY of the Significators</Label>
                         <Input {...register('q105_summary')} readOnly className="bg-slate-100 font-semibold" />
                         <p className="text-sm text-slate-500">Auto-filled from Q7, Q31, Q55, Q79, and Q103</p>
+                    </div>
+
+                    {/* Direct Planets List */}
+                    <div className="grid gap-2">
+                        <Label className="text-green-700 font-semibold">Direct Planets</Label>
+                        <div className="p-3 bg-green-50 border border-green-200 rounded-md min-h-[40px]">
+                            {directPlanets.length > 0 ? (
+                                <div className="space-y-2">
+                                    {directPlanets.map((entry, index) => (
+                                        <div key={`direct-${index}`} className="p-2 bg-green-100 rounded-md border border-green-200">
+                                            <span className="font-bold text-green-900">{entry.planet}</span>
+                                            <span className="text-green-700 text-sm ml-2">— {entry.designation}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="text-sm text-slate-500 italic">No direct planets recorded yet</p>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Retrograde Planets List */}
+                    <div className="grid gap-2">
+                        <Label className="text-orange-700 font-semibold">Retrograde Planets</Label>
+                        <div className="p-3 bg-orange-50 border border-orange-200 rounded-md min-h-[40px]">
+                            {retrogradePlanets.length > 0 ? (
+                                <div className="space-y-2">
+                                    {retrogradePlanets.map((entry, index) => (
+                                        <div key={`retro-${index}`} className="p-2 bg-orange-100 rounded-md border border-orange-200">
+                                            <span className="font-bold text-orange-900">{entry.planet}</span>
+                                            <span className="text-orange-700 text-sm ml-2">— {entry.designation}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="text-sm text-slate-500 italic">No retrograde planets recorded yet</p>
+                            )}
+                        </div>
                     </div>
                 </CardContent>
             </Card>
